@@ -1,0 +1,13 @@
+{
+  "permissions": [
+    {
+      "type": "MICROPHONE",
+      "description": "Для распознавания голосовых команд"
+    },
+    {
+      "type": "LOCATION",
+      "description": "Для определения вашего местоположения"
+    }
+  ]
+}
+

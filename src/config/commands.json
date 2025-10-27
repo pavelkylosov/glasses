@@ -1,0 +1,43 @@
+{
+  "openMenu": {
+    "triggers": ["меню"],
+    "description": "Открыть главное меню"
+  },
+  "showWeather": {
+    "triggers": ["погода", "покажи погоду", "прогноз погоды"],
+    "description": "Показать погоду текущей локации"
+  },
+  "showBirthdays": {
+    "triggers": ["дни рожденья", "дни рождения", "день рождения", "birthdays"],
+    "description": "Показать ближайшие дни рожденья"
+  },
+  "showHolidays": {
+    "triggers": ["праздники"],
+    "description": "Показать ближайшие праздники"
+  },
+  "showNews": {
+    "triggers": ["новости"],
+    "description": "Показать последнюю новость"
+  },
+  "nextNews": {
+    "triggers": ["дальше", "следующая", "next"],
+    "description": "Показать следующую новость"
+  },
+  "okiTrigger": {
+    "triggers": ["оки", "oki", "Okay", "окей", "Ok,", "Oк", "Оке"],
+    "description": "Отправить webhook при слове оки"
+  },
+  "showSolovyev": {
+    "triggers": ["соловьев", "соловьёв", "solovyev", "соловьё"],
+    "description": "Показать информацию о передаче Соловьев"
+  },
+  "showPustGovoryat": {
+    "triggers": ["пусть говорят", "пуст говорят"],
+    "description": "Показать информацию о передаче Пусть говорят"
+  },
+  "showFeed": {
+    "triggers": ["что нового", "что новенького", "новое в ленте", "лента", "lenta", "što novo", "ленту"],
+    "description": "Показать новое в социальной ленте"
+  }
+}
+

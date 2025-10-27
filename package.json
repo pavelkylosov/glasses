@@ -1,0 +1,42 @@
+{
+  "name": "my-first-mentraos-app",
+  "version": "1.0.0",
+  "description": "Простое приложение Hello World для MentraOS",
+  "type": "module",
+  "main": "src/index.js",
+  "files": [
+    "src",
+    "manifest.json"
+  ],
+  "scripts": {
+    "start": "dotenv -e .env -- sh -c 'PORT=$PORT node src/index.js'",
+    "dev": "dotenv -e .env -- sh -c 'PORT=$PORT node --watch src/index.js'",
+    "ngrok": "dotenv -e .env -- sh -c 'ngrok http $PORT'",
+    "stop": "pkill -9 -f 'node src/index.js' 2>/dev/null || true && pkill -9 -f 'ngrok http' 2>/dev/null || true && pkill -9 -f 'node --watch src/index.js' 2>/dev/null || true && echo '✅ Все процессы остановлены'",
+    "start-win": "dotenv -e .env -- node src/index.js",
+    "dev-win": "dotenv -e .env -- node --watch src/index.js",
+    "ngrok-win": "ngrok http 3000",
+    "stop-win": "taskkill /f /im node.exe 2>nul & taskkill /f /im ngrok.exe 2>nul & echo ✅ Все процессы остановлены"
+  },
+  "keywords": [
+    "mentraos",
+    "smart-glasses",
+    "hello-world"
+  ],
+  "author": "mentraOS",
+  "license": "MIT",
+  "dependencies": {
+    "@mentra/sdk": "^2.1.27",
+    "dotenv": "^17.2.3",
+    "node-fetch": "2"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "resolutions": {
+    "chalk": "4.1.2",
+    "boxen": "5.1.2"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^10.0.0",
+    "ngrok": "^5.0.0-beta.2"
+  }
+}
