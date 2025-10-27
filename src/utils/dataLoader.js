@@ -5,23 +5,22 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+let cachedData = null;
+
 /**
  * Загружает данные из data.json
  */
 export function loadData() {
-    const data = JSON.parse(
-        readFileSync(join(__dirname, '../config/data.json'), 'utf-8')
-    );
-
-    return data;
+    if (!cachedData) {
+        cachedData = JSON.parse(readFileSync(join(__dirname, '../config/data.json'), 'utf-8'));
+    }
+    return cachedData;
 }
 
 /**
  * Загружает конкретную секцию из data.json
  */
 export function loadDataSection(sectionName) {
-    const data = loadData();
-
-    return data[sectionName] || [];
+    return loadData()[sectionName] || [];
 }
 

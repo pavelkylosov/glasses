@@ -4,11 +4,10 @@ import { BaseContentModule } from './base/BaseContentModule.js';
 
 /**
  * HolidaysModule - Модуль для работы с праздниками
- * Отображает ближайшие праздники на очках
  */
 export class HolidaysModule extends BaseContentModule {
     constructor() {
-        super(3); // 3 элемента на страницу
+        super(3);
     }
 
     getModuleName() {
@@ -19,25 +18,17 @@ export class HolidaysModule extends BaseContentModule {
         return loadDataSection('holidays');
     }
 
-    getAllHolidays() {
-        return this.getAllItems();
-    }
-
     formatItems(holidays) {
-        if (!holidays || holidays.length === 0) return 'Праздники не найдены';
-
-        return holidays.map(holiday => {
-            const formattedDate = formatDate(holiday.date);
-            return `${holiday.name} ${formattedDate}\n${holiday.description}`;
-        }).join('\n\n');
+        if (!holidays?.length) return 'Праздники не найдены';
+        return holidays.map(h => `${h.name} ${formatDate(h.date)}\n${h.description}`).join('\n\n');
     }
 
     async showLatestHoliday(session, sessionId) {
-        await this.showLatest(session, sessionId);
+        return this.showLatest(session, sessionId);
     }
 
     async showNextHoliday(session, sessionId) {
-        await this.showNext(session, sessionId);
+        return this.showNext(session, sessionId);
     }
 }
 

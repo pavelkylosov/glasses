@@ -38,7 +38,7 @@ export class BaseContentModule {
     async showItemsAtIndex(session, sessionId, index, usePagination = true) {
         const allItems = this.getAllItems();
 
-        if (!allItems || allItems.length === 0 || index < 0 || index >= allItems.length) {
+        if (!allItems?.length || index < 0 || index >= allItems.length) {
             session.layouts.showReferenceCard(
                 this.getModuleName(),
                 `${this.getModuleName()} не найдены`,
@@ -50,75 +50,44 @@ export class BaseContentModule {
 
         this.viewState.startViewing(sessionId, index);
 
-        const items = usePagination
-            ? this.pagination.getPage(allItems, index)
-            : [allItems[index]];
-
-        const formattedContent = this.formatItems(items);
+        const items = usePagination ? this.pagination.getPage(allItems, index) : [allItems[index]];
         const title = usePagination
             ? this.pagination.formatPageTitle(this.getModuleName(), index, items, allItems.length)
             : `${this.getModuleName()} ${index + 1}/${allItems.length}`;
 
-        session.layouts.showReferenceCard(
-            title,
-            formattedContent,
-            { durationMs: 15000 }
-        );
-
+        session.layouts.showReferenceCard(title, this.formatItems(items), { durationMs: 15000 });
         console.log(`✅ [${this.getModuleName()}] ${title}`);
         return true;
     }
 
-    /**
-     * Показать первый элемент
-     */
     async showLatest(session, sessionId) {
-        await this.showItemsAtIndex(session, sessionId, 0);
+        return this.showItemsAtIndex(session, sessionId, 0);
     }
 
-    /**
-     * Показать следующую страницу
-     */
     async showNext(session, sessionId, usePagination = true) {
         const currentIndex = this.viewState.getCurrentIndex(sessionId);
         const allItems = this.getAllItems();
-        const nextIndex = usePagination
-            ? this.pagination.getNextPageIndex(currentIndex)
-            : currentIndex + 1;
+        const nextIndex = usePagination ? this.pagination.getNextPageIndex(currentIndex) : currentIndex + 1;
 
         if (nextIndex >= allItems.length) {
-            session.layouts.showReferenceCard(
-                this.getModuleName(),
-                `Это была последняя страница`,
-                { durationMs: 5000 }
-            );
+            session.layouts.showReferenceCard(this.getModuleName(), 'Это была последняя страница', { durationMs: 5000 });
             this.viewState.stopViewing(sessionId);
-
             console.log(`ℹ️ [${this.getModuleName()}] Больше элементов нет`);
             return;
         }
 
-        await this.showItemsAtIndex(session, sessionId, nextIndex, usePagination);
+        return this.showItemsAtIndex(session, sessionId, nextIndex, usePagination);
     }
 
-    /**
-     * Проверить режим просмотра
-     */
     isInViewMode(sessionId) {
         return this.viewState.isInViewMode(sessionId);
     }
 
-    /**
-     * Инициализация модуля
-     */
     init() {
         console.log(`✅ [${this.getModuleName()}] Модуль инициализирован`);
         return [];
     }
 
-    /**
-     * Очистка ресурсов
-     */
     cleanup(sessionId) {
         this.viewState.cleanup(sessionId);
     }

@@ -3,58 +3,31 @@
  */
 export class ViewStateManager {
     constructor() {
-        this.currentIndex = new Map();
-        this.isViewing = new Map();
+        this.sessions = new Map();
     }
 
-    /**
-     * Получить текущий индекс
-     */
+    getState(sessionId) {
+        return this.sessions.get(sessionId) || { index: 0, isViewing: false };
+    }
+
     getCurrentIndex(sessionId) {
-        return this.currentIndex.get(sessionId) || 0;
+        return this.getState(sessionId).index;
     }
 
-    /**
-     * Установить текущий индекс
-     */
-    setCurrentIndex(sessionId, index) {
-        this.currentIndex.set(sessionId, index);
-    }
-
-    /**
-     * Проверить, находится ли сессия в режиме просмотра
-     */
     isInViewMode(sessionId) {
-        return this.isViewing.get(sessionId) || false;
+        return this.getState(sessionId).isViewing;
     }
 
-    /**
-     * Установить режим просмотра
-     */
-    setViewMode(sessionId, isViewing) {
-        this.isViewing.set(sessionId, isViewing);
-    }
-
-    /**
-     * Начать просмотр (установить индекс и режим)
-     */
     startViewing(sessionId, index) {
-        this.setCurrentIndex(sessionId, index);
-        this.setViewMode(sessionId, true);
+        this.sessions.set(sessionId, { index, isViewing: true });
     }
 
-    /**
-     * Завершить просмотр
-     */
     stopViewing(sessionId) {
-        this.setViewMode(sessionId, false);
+        const state = this.getState(sessionId);
+        this.sessions.set(sessionId, { ...state, isViewing: false });
     }
 
-    /**
-     * Очистить состояние сессии
-     */
     cleanup(sessionId) {
-        this.currentIndex.delete(sessionId);
-        this.isViewing.delete(sessionId);
+        this.sessions.delete(sessionId);
     }
 }

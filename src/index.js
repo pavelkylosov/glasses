@@ -88,9 +88,6 @@ class MyMentraOSApp extends AppServer {
         console.log(`✅ Модули инициализированы (${this.modules.length})`);
     }
 
-    /**
-     * Обработка новых подключений сессий
-     */
     async onSession(session, sessionId, userId) {
         console.log(`\n🎉 Новая сессия: ${sessionId} | Пользователь: ${userId}`);
 
@@ -99,26 +96,19 @@ class MyMentraOSApp extends AppServer {
         );
 
         this.cleanupHandlers.set(sessionId, handlers);
-
         console.log(`\n✅ Приложение готово к работе!`);
     }
 
-    /**
-     * Обработка остановки сессии
-     */
     async onStop(sessionId, userId, reason) {
         console.log(`\n🛑 Сессия ${sessionId} остановлена (${reason})`);
 
-        // Очищаем обработчики
         const handlers = this.cleanupHandlers.get(sessionId);
         if (handlers) {
             handlers.forEach(cleanup => cleanup?.());
             this.cleanupHandlers.delete(sessionId);
         }
 
-        // Очищаем модули
         this.modules.forEach(({ module }) => module.cleanup?.(sessionId));
-
         console.log(`🧹 Ресурсы очищены`);
     }
 }
